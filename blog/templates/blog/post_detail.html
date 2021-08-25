@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content%}
+
+<div class="container">
+
+    <div class="card" style="width: 18rem;">
+        <img src="{{object.img.url}}" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">{{object.title}}</h5>
+          <p class="card-text">Created by: {{object.author}}, <small>about {{object.timestamp|timesince}} ago</small></p>
+          <p class="card-text">{{object.content}}</p>
+            
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">this will be  a comment</li>
+            <li class="list-group-item">this will be  a comment</li>
+            <li class="list-group-item">this will be  a comment</li>
+          </ul>
+        </div>
+      </div>
+
+</div>
+
+{% endblock %}

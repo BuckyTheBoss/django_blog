@@ -13,4 +13,5 @@ class Post(models.Model):
     content = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey('accounts.Profile', on_delete=models.CASCADE)
-    likes = models.IntegerField()
+    likes = models.IntegerField(default=0)
+    img = models.ImageField(upload_to='posts/')

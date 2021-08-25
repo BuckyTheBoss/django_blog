@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content%}
+
+<div class="row">
+
+    {% for post in object_list %}
+    <div class="card" style="width: 18rem;">
+        <img src="{{post.img.url}}" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">{{post.title}}</h5>
+          <p class="card-text">Created by: {% if user.profile == post.author %} You {% else %} {{post.author}} {% endif%} <small>about {{post.timestamp|timesince}} ago</small></p>
+          <a href="{% url 'post_detail' post.id%}" class="btn btn-primary">See Post</a>
+          
+          {% if user.profile == post.author %}
+          <a href="{% url 'post_update' post.id%}" class="btn btn-warning">Edit Post</a>
+          {% endif %}
+
+        </div>
+      </div>
+    {% endfor %}
+
+</div>
+
+{% endblock %}

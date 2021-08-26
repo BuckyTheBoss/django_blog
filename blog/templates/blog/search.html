@@ -2,14 +2,33 @@
 
 {% block content%}
 <h1>Search Results for: {{q}}</h1>
-
+{% if results.posts %}
+<h4>Posts</h4>
 <div class="list-group">
-{% for result in results %}
+{% for result in results.posts %}
 
     <a href="{% url 'post_detail' result.id%}" class="list-group-item list-group-item-action " >
       {{result.title}} by {{result.author}}
     </a>
      {% endfor %}
 </div>
+{% else %}
+No posts found
+{% endif %}
+
+
+{% if results.comments %}
+<h4>Comments</h4>
+<div class="list-group">
+{% for result in results.comments %}
+
+    <a href="{% url 'post_detail' result.post.id%}" class="list-group-item list-group-item-action " >
+      {{result.content}} by {{result.author}}
+    </a>
+     {% endfor %}
+</div>
+{% else %}
+No comments found
+{% endif %}
 
 {% endblock %}

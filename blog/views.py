@@ -6,6 +6,7 @@ from django.urls import reverse_lazy
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import Q
+from django.contrib.auth.models import User
 # Create your views here.
 
 def homepage(request):
@@ -113,9 +114,16 @@ class CommentEditView(generic.UpdateView):
 
 def search_results(request):
     query = request.GET.get('search')
-    results = Post.objects.filter(
+    posts =  Post.objects.filter(
         Q(title__contains=query) |
         Q(content__contains=query)
     )
+    comments = Comment.objects.filter(content__contains=query)
+ 
+    results = {
+        
+        'comments': comments,
+        'posts': posts
+    }
 
     return render(request, 'blog/search.html', {'q':query, 'results': results})

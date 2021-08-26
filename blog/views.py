@@ -5,7 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
-
+from django.db.models import Q
 # Create your views here.
 
 def homepage(request):
@@ -59,10 +59,27 @@ class PostCreateView(LoginRequiredMixin, generic.CreateView):
         return reverse_lazy('post_detail', kwargs={'pk':self.post_object.id})
 
 
-class CommentCreateView(LoginRequiredMixin,generic.CreateView):
+class PostDetailView(generic.DetailView):
+    model = Post
+
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            
+            return redirect('post_comment', kwargs['pk'])
+        return super().get(request, *args, **kwargs)
+
+
+
+
+class CommentCreateView(generic.CreateView):
     model = Comment
     fields = ['content']
     template_name = 'blog/post_detail.html'
+
+    def get(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect('post_detail', kwargs['pk'])
+        return super().get(request, *args, **kwargs)
 
     def get_post(self):
         post_id = self.kwargs['pk']
@@ -92,3 +109,13 @@ class CommentEditView(generic.UpdateView):
         qs = super().get_queryset()
         filtered_qs = qs.filter(author=self.request.user.profile)
         return filtered_qs
+
+
+def search_results(request):
+    query = request.GET.get('search')
+    results = Post.objects.filter(
+        Q(title__contains=query) |
+        Q(content__contains=query)
+    )
+
+    return render(request, 'blog/search.html', {'q':query, 'results': results})

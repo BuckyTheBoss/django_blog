@@ -23,15 +23,18 @@
 <li class="nav-item">
   <a class="nav-link " href="{% url 'login' %}" tabindex="-1" >login</a>
   </li>
-  <li class="nav-item">
-  <a class="nav-link " href="{% url 'signup' %}" tabindex="-1" >signup</a>
-</li>
-          {% endif %}
-   
+  {% url 'signup' as the_url %}
+    {% if request.path != the_url  %}
+      <li class="nav-item">
+        <a class="nav-link " href="{% url 'signup' %}" tabindex="-1" >signup</a>
+      </li>
+    {% endif %}
+{% endif %}
+
          
         </ul>
-        <form class="d-flex">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <form class="d-flex" action="{% url 'search_results' %}">
+          <input class="form-control me-2" name='search' type="search" placeholder="Search" aria-label="Search">
           <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
       </div>

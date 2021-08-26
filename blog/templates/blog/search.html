@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content%}
+<h1>Search Results for: {{q}}</h1>
+
+<div class="list-group">
+{% for result in results %}
+
+    <a href="{% url 'post_detail' result.id%}" class="list-group-item list-group-item-action " >
+      {{result.title}} by {{result.author}}
+    </a>
+     {% endfor %}
+</div>
+
+{% endblock %}

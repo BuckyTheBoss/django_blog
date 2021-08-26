@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% for message in chat_messages %}
+<p>{{message.sender}}: {{message.content}} @ {{message.timestamp}}</p>
+{% endfor %}
+
+<form method="post">
+    {% csrf_token %}
+    {{form.as_p}}
+    <button class="btn btn-primary">send</button>
+
+</form>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-4">
+            <div class="list-group">
+                  {% for profile in profiles %}
+                <a href="{% url 'conversation' profile.id%}" class="list-group-item list-group-item-action " tabindex="-1" >{{profile}}</a>
+                
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-8">
+            <div class="list-group"></div>
+            {% for message in user.profile.inbox.all %}
+                <a href="{% url 'conversation' message.sender.id%}" class="list-group-item list-group-item-action ">{{message.content}}</a>
+
+
+            {% endfor %}
+        </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

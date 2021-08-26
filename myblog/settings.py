@@ -11,9 +11,11 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+from django.contrib.messages import constants as messages
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
 
 
 # Quick-start development settings - unsuitable for production
@@ -131,6 +133,10 @@ LOGOUT_REDIRECT_URL = 'home'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR/'media/'
 
+MESSAGE_TAGS = {
+    messages.INFO: 'secondary',
+    messages.ERROR: 'danger',
+}
 
 try:
     from .local_settings import *
